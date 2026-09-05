@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OP ARCHIVE — Overpowered Character Registry</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<script></script>
+<style>
+  :root{
+    --void:#08090c;
+    --void-2:#0e1016;
+    --line:#22252e;
+    --text:#e9e9ee;
+    --text-dim:#8b8e9a;
+    --unit:8px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--void);
+    color:var(--text);
+    font-family:'Inter', sans-serif;
+    overflow-x:hidden;
+  }
+  ::selection{ background:#ffffff22; user-select:none; }
+  *{ -webkit-user-select:none; user-select:none; }
+
+  /* ---------- Nav rail ---------- */
+  .rail{
+    position:fixed;
+    right:28px;
+    top:50%;
+    transform:translateY(-50%);
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+    z-index:50;
+  }
+  .rail-dot{
+    width:8px; height:8px;
+    border-radius:50%;
+    background:#3a3d47;
+    cursor:pointer;
+    transition:all .35s cubic-bezier(.4,0,.2,1);
+    position:relative;
+    opacity:0; animation:dotIn .4s ease forwards;
+  }
+  .rail-dot:nth-child(1){ animation-delay:1.2s; }
+  .rail-dot:nth-child(2){ animation-delay:1.3s; }
+  .rail-dot:nth-child(3){ animation-delay:1.4s; }
+  .rail-dot:nth-child(4){ animation-delay:1.5s; }
+  .rail-dot:nth-child(5){ animation-delay:1.6s; }
+  .rail-dot:nth-child(6){ animation-delay:1.7s; }
+  .rail-dot:nth-child(7){ animation-delay:1.8s; }
+  .rail-dot:nth-child(8){ animation-delay:1.9s; }
+  .rail-dot:nth-child(9){ animation-delay:2.0s; }
+  .rail-dot:nth-child(10){ animation-delay:2.1s; }
+  .rail-dot:nth-child(11){ animation-delay:2.2s; }
+  .rail-dot:nth-child(12){ animation-delay:2.3s; }
+  @keyframes dotIn{
+    from{ opacity:0; transform:scale(0) translateY(10px); }
+    to{ opacity:1; transform:scale(1) translateY(0); }
+  }
+  .rail-dot::before{
+    content:''; position:absolute; inset:-6px; border-radius:50%;
+    background:var(--dot-color, #fff); opacity:0;
+    transition:opacity .35s ease, transform .35s ease;
+    transform:scale(.5);
+  }
+  .rail-dot::after{
+    content:''; position:absolute; inset:0; border-radius:50%;
+    background:var(--dot-color, #fff); opacity:0;
+    transition:opacity .2s ease, transform .4s cubic-bezier(.4,0,.2,1);
+    transform:scale(1);
+  }
+  .rail-dot:hover::before{ opacity:.12; transform:scale(1); }
+  .rail-dot:hover::after{ opacity:.6; transform:scale(1.3); }
+  .rail-dot:hover{ transform:scale(1.2); }
+  .rail-dot.active{
+    transform:scale(1);
+  }
+  .rail-dot.active::after{
+    opacity:1; transform:scale(1);
+    box-shadow:0 0 8px var(--dot-color, #fff);
+  }
+  .rail-dot.active::before{
+    opacity:.2; transform:scale(1.8);
+    animation:dotRipple 2s ease infinite;
+  }
+  @keyframes dotRipple{
+    0%{ transform:scale(1.8); opacity:.2; }
+    100%{ transform:scale(3); opacity:0; }
+  }
+  @media (max-width: 860px){ .rail{ display:none; } }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    min-height:100svh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    padding:0 8vw;
+    position:relative;
+    border-bottom:1px solid var(--line);
+    background:
+      linear-gradient(135deg, #ffffff08 0%, transparent 50%),
+      linear-gradient(to bottom, rgba(8,9,12,.55) 0%, rgba(8,9,12,.85) 60%, var(--void) 100%),
+      url('assets/cover.png') center/cover no-repeat;
+  }
+  .hero-kicker{
+    font-family:'Space Grotesk', sans-serif;
+    font-size:13px;
+    letter-spacing:.14em;
+    color:var(--text-dim);
+    margin-bottom:22px;
+  }
+  .hero h1{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    font-size:clamp(48px, 9vw, 128px);
+    line-height:.94;
+    letter-spacing:-.02em;
+  }
+  .hero h1 span{
+    display:block;
+    color:transparent;
+    -webkit-text-stroke:1.5px #5a5d68;
+  }
+  .hero-desc{
+    max-width:520px;
+    margin-top:32px;
+    font-size:16px;
+    line-height:1.65;
+    color:var(--text-dim);
+  }
+  .hero-note{
+    margin-top:26px;
+    font-size:13px;
+    line-height:1.6;
+    color:#5f6270;
+    max-width:520px;
+    border-left:2px solid var(--line);
+    padding-left:14px;
+  }
+  .hero-count{
+    position:absolute;
+    right:8vw;
+    bottom:56px;
+    text-align:right;
+    font-family:'Space Grotesk', sans-serif;
+  }
+  .hero-count .n{ font-size:44px; font-weight:600; }
+  .hero-count .l{ font-size:12px; color:var(--text-dim); letter-spacing:.1em; }
+  @media (max-width: 700px){ .hero-count{ display:none; } }
+
+  /* ---------- Character section ---------- */
+  .entry{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    min-height:100svh;
+    border-bottom:1px solid var(--line);
+    position:relative;
+    background:
+      linear-gradient(135deg, var(--entry-bg, transparent) 0%, var(--entry-bg-faint, transparent) 100%);
+  }
+  .entry.flip{ direction:rtl; }
+  .entry.flip > *{ direction:ltr; }
+  .entry-canvas{
+    position:relative;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:
+      radial-gradient(circle at 50% 50%, var(--glow, #ffffff10) 0%, transparent 60%),
+      var(--void-2);
+    overflow:hidden;
+  }
+  .entry-canvas canvas{ display:block; }
+  .entry-canvas .gif-embed{ position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover; }
+  .entry-canvas .loader{
+    position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    background:var(--void-2);z-index:2;transition:opacity .4s ease;
+  }
+  .entry-canvas .loader.hidden{ opacity:0; pointer-events:none; }
+  .loader-ring{
+    width:36px;height:36px;border:2px solid var(--line);border-top-color:var(--tier-color,#fff);
+    border-radius:50%;animation:spin .8s linear infinite;
+  }
+  .loader-label{ margin-top:12px;font-size:11px;color:var(--text-dim);letter-spacing:.1em;font-family:'Space Grotesk',sans-serif; }
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+  .tier-tag{
+    position:absolute;
+    top:32px;
+    left:32px;
+    font-family:'Space Grotesk', sans-serif;
+    font-size:11px;
+    letter-spacing:.12em;
+    padding:6px 12px;
+    border:1px solid var(--tier-color, #666);
+    color:var(--tier-color, #666);
+    border-radius:2px;
+  }
+  .entry-info{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    padding:64px 6vw;
+  }
+  .entry-index{
+    font-family:'Space Grotesk', sans-serif;
+    font-size:13px;
+    color:var(--text-dim);
+    margin-bottom:18px;
+    letter-spacing:.08em;
+  }
+  .entry-name{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    font-size:clamp(32px, 4vw, 52px);
+    line-height:1.02;
+    letter-spacing:-.01em;
+    margin-bottom:6px;
+  }
+  .entry-series{
+    font-size:14px;
+    color:var(--accent, #ccc);
+    margin-bottom:24px;
+    font-weight:500;
+  }
+  .entry-desc{
+    max-width:460px;
+    font-size:15.5px;
+    line-height:1.7;
+    color:var(--text-dim);
+    margin-bottom:28px;
+  }
+  .entry-traits{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+  }
+  .trait{
+    font-size:12px;
+    color:var(--text);
+    background:#ffffff0a;
+    border:1px solid var(--line);
+    padding:7px 12px;
+    border-radius:2px;
+  }
+  @media (max-width: 860px){
+    .entry, .entry.flip{ grid-template-columns:1fr; direction:ltr; }
+    .entry-canvas{ min-height:52vh; }
+    .entry-info{ padding:48px 7vw; }
+  }
+
+  /* ---------- Footer ---------- */
+  footer{
+    padding:80px 8vw 60px;
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    flex-wrap:wrap;
+    gap:24px;
+  }
+  footer .f-title{
+    font-family:'Space Grotesk', sans-serif;
+    font-size:22px;
+    font-weight:600;
+  }
+  footer .f-note{
+    max-width:420px;
+    font-size:13px;
+    color:var(--text-dim);
+    line-height:1.6;
+  }
+
+  /* ---------- Animations ---------- */
+  @keyframes fadeUp{
+    from{ opacity:0; transform:translateY(30px); }
+    to{ opacity:1; transform:translateY(0); }
+  }
+  @keyframes fadeSlideRight{
+    from{ opacity:0; transform:translateX(-20px); }
+    to{ opacity:1; transform:translateX(0); }
+  }
+  @keyframes countUp{
+    from{ opacity:0; transform:translateY(20px) scale(.9); }
+    to{ opacity:1; transform:translateY(0) scale(1); }
+  }
+  @keyframes glitch{
+    0%,100%{ clip-path:inset(0 0 0 0); transform:translate(0); }
+    20%{ clip-path:inset(20% 0 60% 0); transform:translate(-3px,2px); }
+    40%{ clip-path:inset(60% 0 10% 0); transform:translate(3px,-1px); }
+    60%{ clip-path:inset(40% 0 30% 0); transform:translate(-2px,1px); }
+    80%{ clip-path:inset(10% 0 70% 0); transform:translate(2px,-2px); }
+  }
+  @keyframes shimmer{
+    0%{ background-position:-200% center; }
+    100%{ background-position:200% center; }
+  }
+
+  /* Hero stagger */
+  .hero .hero-kicker{ opacity:0; animation:fadeSlideRight .7s ease .2s forwards; }
+  .hero h1{ opacity:0; animation:fadeUp .8s ease .4s forwards; }
+  .hero .hero-desc{ opacity:0; animation:fadeUp .7s ease .7s forwards; }
+  .hero .hero-note{ opacity:0; animation:fadeUp .7s ease .9s forwards; }
+  .hero .hero-count{ opacity:0; animation:countUp .6s ease 1.1s forwards; }
+
+  .hero h1{ cursor:default; }
+
+  /* Entry scroll reveal */
+  .entry{
+    opacity:0; transform:translateY(50px);
+    transition:opacity .7s ease, transform .7s ease;
+  }
+  .entry.visible{ opacity:1; transform:translateY(0); }
+
+  /* Entry info stagger children */
+  .entry-info > *{
+    opacity:0; transform:translateY(20px);
+    transition:opacity .5s ease, transform .5s ease;
+  }
+  .entry.visible .entry-info > *:nth-child(1){ transition-delay:.1s; opacity:1; transform:translateY(0); }
+  .entry.visible .entry-info > *:nth-child(2){ transition-delay:.2s; opacity:1; transform:translateY(0); }
+  .entry.visible .entry-info > *:nth-child(3){ transition-delay:.3s; opacity:1; transform:translateY(0); }
+  .entry.visible .entry-info > *:nth-child(4){ transition-delay:.4s; opacity:1; transform:translateY(0); }
+  .entry.visible .entry-info > *:nth-child(5){ transition-delay:.5s; opacity:1; transform:translateY(0); }
+
+  /* Tier tag slide in */
+  .tier-tag{
+    opacity:0; transform:translateX(-20px);
+    transition:opacity .5s ease .3s, transform .5s ease .3s;
+  }
+  .entry.visible .tier-tag{ opacity:1; transform:translateX(0); }
+
+  /* Trait pop-in stagger */
+  .trait{
+    opacity:0; transform:scale(.8) translateY(10px);
+    transition:opacity .4s ease, transform .4s ease, background .2s ease, border-color .2s ease;
+  }
+  .entry.visible .trait:nth-child(1){ transition-delay:.55s; opacity:1; transform:scale(1) translateY(0); }
+  .entry.visible .trait:nth-child(2){ transition-delay:.65s; opacity:1; transform:scale(1) translateY(0); }
+  .entry.visible .trait:nth-child(3){ transition-delay:.75s; opacity:1; transform:scale(1) translateY(0); }
+  .trait:hover{ background:#ffffff18; border-color:var(--accent, #666); }
+
+  /* Canvas glow pulse */
+  .entry-canvas::after{
+    content:''; position:absolute; inset:0; pointer-events:none; z-index:1;
+    background:radial-gradient(circle at 50% 50%, var(--glow, #ffffff08) 0%, transparent 50%);
+    opacity:0; transition:opacity .6s ease;
+  }
+  .entry.visible .entry-canvas::after{ opacity:1; }
+
+  /* Footer reveal */
+  footer{
+    opacity:0; transform:translateY(30px);
+    transition:opacity .6s ease, transform .6s ease;
+  }
+  footer.visible{ opacity:1; transform:translateY(0); }
+
+  /* Scroll indicator */
+  .scroll-hint{
+    position:absolute; bottom:40px; left:50%; transform:translateX(-50%);
+    display:flex; flex-direction:column; align-items:center; gap:8px;
+    opacity:0; animation:fadeUp .6s ease 1.4s forwards;
+  }
+  .scroll-hint span{ font-size:10px; letter-spacing:.15em; color:var(--text-dim); font-family:'Space Grotesk',sans-serif; }
+  .scroll-arrow{
+    width:16px; height:16px; border-right:1.5px solid var(--text-dim); border-bottom:1.5px solid var(--text-dim);
+    transform:rotate(45deg); animation:bounce 1.5s ease infinite;
+  }
+  @keyframes bounce{
+    0%,100%{ transform:rotate(45deg) translateY(0); }
+    50%{ transform:rotate(45deg) translateY(6px); }
+  }
+</style>
+</head>
+<body>
+
+<div class="rail" id="rail"></div>
+
+<section class="hero">
+  <div class="hero-kicker">POWER SCALING ARCHIVE — VOL. 01</div>
+  <h1>OVER<span>POWERED</span></h1>
+  <p class="hero-desc">
+    A registry of anime characters whose strength breaks the internal logic of their own story — from single-punch finishers to reality-erasing gods. Scroll to browse the archive.
+  </p>
+  <p class="hero-note">
+    Each figure below features an interactive 3D model sourced from Sketchfab — rotate, zoom, and explore each character.
+  </p>
+  <div class="hero-count">
+    <div class="n">12</div>
+    <div class="l">ENTRIES CATALOGUED</div>
+  </div>
+  <div class="scroll-hint">
+    <span>SCROLL</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<div id="entries"></div>
+
+<footer>
+  <div class="f-title">OP ARCHIVE</div>
+  <div class="f-note">Built as a fan reference. Character names and source anime are credited per entry; all rights to original character designs belong to their respective creators and studios.</div>
+</footer>
+
+<script>
+// ---------------------------------------------------------------
+// DATA
+// ---------------------------------------------------------------
+const CHARACTERS = [
+  {
+    name: "Saitama", series: "One Punch Man", tier: "NO CONTEST",
+    accent: "#f4d13d",
+    desc: "Trained himself so hard he lost the ability to lose. Ends nearly every fight in a single punch, and the show's real drama is his boredom, not his opponents.",
+    traits: ["One-Hit KO", "Unlimited Stamina", "Comedic Tone"],
+    sketchfab: "5933d345ad9441d499c93eb655a9b214"
+  },
+  {
+    name: "Son Goku", series: "Dragon Ball Super", tier: "ESCALATING",
+    accent: "#ff8c3c",
+    desc: "The face of power creep itself — every arc resets the ceiling with a new transformation, from Super Saiyan to Ultra Instinct.",
+    traits: ["Transformation Chain", "Ki Mastery", "Franchise Icon"],
+    sketchfab: "a2d7a695a97a4cde9c28a77a3733eace"
+  },
+  {
+    name: "Vegeta", series: "Dragon Ball Super", tier: "ESCALATING",
+    accent: "#5c8bff",
+    desc: "Perpetually one step behind Goku by design, which still places him among the strongest beings ever to appear in fiction.",
+    traits: ["Saiyan Pride", "Ultra Ego", "Rival Arc"],
+    sketchfab: "336e51bf9b0c4c218218da2d8ce7eb79"
+  },
+  {
+    name: "Zeno", series: "Dragon Ball Super", tier: "REALITY ENDER",
+    accent: "#e6e6e6",
+    desc: "Can erase entire universes without a second thought. Every other character in the franchise is functionally powerless in comparison.",
+    traits: ["Universe Erasure", "Absolute Authority", "Childlike"],
+    sketchfab: "60ff10e7c90e4b30aa6fa23c1f8327ce"
+  },
+  {
+    name: "Anos Voldigoad", series: "Misfit of Demon King Academy", tier: "NO-SELL",
+    accent: "#b07bff",
+    desc: "A reincarnated demon king who casually shrugs off attacks meant to be series-ending threats, then explains why they never had a chance.",
+    traits: ["Reincarnation", "Magic Cancellation", "Overlord Archetype"],
+    gif: "https://media1.tenor.com/m/SKhwqedtfjoAAAAC/anos-voldigoad.gif"
+  },
+  {
+    name: "Naruto Uzumaki", series: "Naruto Shippuden", tier: "PEAK FORM",
+    accent: "#ffb400",
+    desc: "By the war arc, Six Paths Sage Mode and the Nine-Tails' full power push him into a tier built specifically to end the story.",
+    traits: ["Sage Mode", "Tailed Beast Chakra", "Shonen Finale"],
+    sketchfab: "65872e1b235e4b8da290baca83ec5a69"
+  },
+  {
+    name: "Aizen Sōsuke", series: "Bleach", tier: "PRECOG BROKEN",
+    accent: "#c9c9d6",
+    desc: "An illusion ability so absolute that his opponents' senses can't be trusted from the moment they lay eyes on him.",
+    traits: ["Perfect Hypnosis", "Shapeshift Zanpakutō", "Master Planner"],
+    sketchfab: "61b2af4dd4fc4a18a4cc65380593ef29"
+  },
+  {
+    name: "Meruem", series: "Hunter x Hunter", tier: "APEX PREDATOR",
+    accent: "#8b5bff",
+    desc: "The Chimera Ant king, engineered to absorb the strongest traits of everything he consumes — widely ranked as the series' strongest fighter.",
+    traits: ["Nen Mastery", "Rapid Growth", "Inherited Aura"],
+    sketchfab: "671547e5bcc34c5aa516a1445d5673f9"
+  },
+  {
+    name: "Escanor", series: "The Seven Deadly Sins", tier: "SUN-BOUND",
+    accent: "#ffcf40",
+    desc: "At high noon, 'The One' form multiplies his strength to a level that rivals gods — a power capped only by the sun itself going down.",
+    traits: ["Sunlight Scaling", "Sin of Pride", "Time-Limited"],
+    sketchfab: "553a5ef423064ffa9bb79cad8357a5d1"
+  },
+  {
+    name: "Alucard", series: "Hellsing Ultimate", tier: "UNKILLABLE",
+    accent: "#e23b3b",
+    desc: "A centuries-old vampire who regenerates from near-total destruction and commands an army summoned from his own past victims.",
+    traits: ["True Immortality", "Familiar Army", "Restraint Seals"],
+    sketchfab: "c31ee7084a054ceba5db9c9e181182ec"
+  },
+  {
+    name: "Rimuru Tempest", series: "That Time I Got Reincarnated as a Slime", tier: "ABSORPTION LOOP",
+    accent: "#3ad1c4",
+    desc: "Copies and refines the abilities of anything it defeats, turning every dangerous enemy encountered into a permanent upgrade.",
+    traits: ["Predator Skill", "Isekai Growth", "Nation Builder"],
+    sketchfab: "8e8c729085d74a068054ba499fc0925d"
+  },
+  {
+    name: "Yhwach", series: "Bleach: TYBW", tier: "FUTURE-PROOF",
+    accent: "#d4af37",
+    desc: "Sees and neutralizes outcomes before they happen, making conventional strategy against him almost meaningless.",
+    traits: ["The Almighty", "Soul Absorption", "Final Antagonist"],
+    sketchfab: "d15587ab716843349eec778d4dc401ec"
+  },
+];
+
+// ---------------------------------------------------------------
+// BUILD DOM: rail dots + entry sections
+// ---------------------------------------------------------------
+const railEl = document.getElementById('rail');
+const entriesEl = document.getElementById('entries');
+
+CHARACTERS.forEach((c, i) => {
+  // rail dot
+  const dot = document.createElement('div');
+  dot.className = 'rail-dot';
+  dot.style.setProperty('--dot-color', c.accent);
+  dot.addEventListener('click', () => {
+    document.getElementById('entry-' + i).scrollIntoView({behavior:'smooth'});
+  });
+  railEl.appendChild(dot);
+
+  // entry section
+  const section = document.createElement('section');
+  section.className = 'entry' + (i % 2 === 1 ? ' flip' : '');
+  section.id = 'entry-' + i;
+  section.style.setProperty('--accent', c.accent);
+  section.style.setProperty('--tier-color', c.accent);
+  section.style.setProperty('--glow', c.accent + '22');
+  section.style.setProperty('--entry-bg', c.accent + '12');
+  section.style.setProperty('--entry-bg-faint', c.accent + '06');
+
+  const embedHTML = c.sketchfab
+    ? `<div class="loader" id="loader-${i}"><div class="loader-ring"></div><div class="loader-label">LOADING</div></div>
+       <iframe data-src="https://sketchfab.com/models/${c.sketchfab}/embed?autostart=1&internal=1&tracking=0&ui_ar=0&ui_infos=0&ui_snapshots=1&ui_stop=0&ui_theatre=1&ui_watermark=0" style="width:100%;height:100%;position:absolute;top:0;left:0;border:none;opacity:0;transition:opacity .4s ease;" allow="autoplay; fullscreen; xr-spatial-tracking" title="${c.name} 3D Model" id="iframe-${i}"></iframe>`
+    : `<div class="loader" id="loader-${i}"><div class="loader-ring"></div><div class="loader-label">LOADING</div></div>
+       <img data-src="${c.gif}" class="gif-embed" alt="${c.name}" id="iframe-${i}">`;
+
+  section.innerHTML = `
+    <div class="entry-canvas" id="canvas-wrap-${i}">
+      <div class="tier-tag">${c.tier}</div>
+      ${embedHTML}
+    </div>
+    <div class="entry-info">
+      <div class="entry-index">${String(i+1).padStart(2,'0')} / ${String(CHARACTERS.length).padStart(2,'0')}</div>
+      <div class="entry-name">${c.name}</div>
+      <div class="entry-series">${c.series}</div>
+      <p class="entry-desc">${c.desc}</p>
+      <div class="entry-traits">
+        ${c.traits.map(t => `<span class="trait">${t}</span>`).join('')}
+      </div>
+    </div>
+  `;
+  entriesEl.appendChild(section);
+});
+
+// ---------------------------------------------------------------
+// Active rail dot on scroll
+// ---------------------------------------------------------------
+const railDots = Array.from(document.querySelectorAll('.rail-dot'));
+const sectionEls = CHARACTERS.map((_, i) => document.getElementById('entry-' + i));
+
+const sectionObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const idx = sectionEls.indexOf(e.target);
+      railDots.forEach(d => d.classList.remove('active'));
+      if (idx >= 0) railDots[idx].classList.add('active');
+    }
+  });
+}, { threshold: 0.5 });
+
+sectionEls.forEach(el => sectionObserver.observe(el));
+
+// ---------------------------------------------------------------
+// SCROLL REVEAL: entries + footer
+// ---------------------------------------------------------------
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.15 });
+
+sectionEls.forEach(el => revealObserver.observe(el));
+
+const footerEl = document.querySelector('footer');
+const footerObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.3 });
+footerObserver.observe(footerEl);
+
+// ---------------------------------------------------------------
+// HERO PARALLAX on scroll
+// ---------------------------------------------------------------
+const heroEl = document.querySelector('.hero');
+window.addEventListener('scroll', () => {
+  const y = window.scrollY;
+  if (y < window.innerHeight) {
+    heroEl.style.backgroundPositionY = `${y * 0.3}px`;
+    heroEl.querySelector('h1').style.transform = `translateY(${y * 0.12}px)`;
+    heroEl.querySelector('.hero-desc').style.transform = `translateY(${y * 0.08}px)`;
+  }
+}, { passive: true });
+
+// ---------------------------------------------------------------
+// LAZY LOAD + CACHE
+// ---------------------------------------------------------------
+const CACHE_KEY = 'op-archive-cache';
+
+function getCache() {
+  try { return JSON.parse(localStorage.getItem(CACHE_KEY)) || {}; }
+  catch { return {}; }
+}
+
+function saveCache(cache) {
+  try { localStorage.setItem(CACHE_KEY, JSON.stringify(cache)); }
+  catch {}
+}
+
+function loadEntry(i) {
+  const el = document.getElementById('iframe-' + i);
+  const loader = document.getElementById('loader-' + i);
+  if (!el || el.dataset.loaded) return;
+
+  const src = el.dataset.src;
+  if (!src) return;
+
+  el.dataset.loaded = '1';
+  el.src = src;
+
+  const show = () => {
+    el.style.opacity = '1';
+    if (loader) loader.classList.add('hidden');
+  };
+
+  if (el.complete !== undefined) {
+    // img or iframe
+    if (el.tagName === 'IMG' && el.complete) { show(); }
+    else { el.addEventListener('load', show, { once: true }); }
+  } else {
+    el.addEventListener('load', show, { once: true });
+  }
+
+  // Fallback: hide loader after 5s even if load event doesn't fire
+  setTimeout(show, 5000);
+
+  const cache = getCache();
+  cache[i] = true;
+  saveCache(cache);
+}
+
+// Restore cached entries immediately on load
+const cache = getCache();
+Object.keys(cache).forEach(i => {
+  if (cache[i]) loadEntry(Number(i));
+});
+
+// Lazy load on scroll
+const lazyObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      loadEntry(Number(e.target.id.replace('entry-', '')));
+    }
+  });
+}, { rootMargin: '200px' });
+
+sectionEls.forEach(el => lazyObserver.observe(el));
+
+// ---------------------------------------------------------------
+// SECURITY: block dev tools, right-click, selection, drag
+// ---------------------------------------------------------------
+document.addEventListener('contextmenu', e => e.preventDefault());
+document.addEventListener('keydown', e => {
+  if (
+    e.key === 'F12' ||
+    (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) ||
+    (e.ctrlKey && e.key === 'u') ||
+    (e.ctrlKey && e.key === 's') ||
+    (e.metaKey && e.altKey && e.key === 'I')
+  ) {
+    e.preventDefault();
+    return false;
+  }
+});
+document.addEventListener('selectstart', e => {
+  if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') e.preventDefault();
+});
+document.addEventListener('dragstart', e => e.preventDefault());
+
+// Obfuscate iframe srcs after load
+setTimeout(() => {
+  document.querySelectorAll('iframe[data-src]').forEach(f => {
+    const src = f.getAttribute('data-src');
+    if (src) {
+      const encoded = btoa(src);
+      f.removeAttribute('data-src');
+      f.dataset.e = encoded;
+    }
+  });
+}, 3000);
+</script>
+</body>
+</html>
