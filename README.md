@@ -2,6 +2,8 @@
 
 A visually immersive web archive showcasing the most overpowered anime characters, featuring interactive 3D models and animated entries.
 
+**Live Site:** [over-powered-anime.netlify.app](https://over-powered-anime.netlify.app)
+
 ## Characters
 
 | # | Character | Series | Tier |
