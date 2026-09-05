@@ -704,6 +704,14 @@ setTimeout(() => {
     }
   });
 }, 3000);
+
+/* Remove Netlify badge */
+(function(){
+  var obs = new MutationObserver(function(){
+    document.querySelectorAll('[id*="nl-"],[class*="nl-"],.netlify-badge,button[aria-label*="Netlify"]').forEach(function(e){ e.remove(); });
+  });
+  obs.observe(document.body, {childList:true, subtree:true});
+})();
 </script>
 </body>
 </html>
