@@ -427,21 +427,21 @@ const CHARACTERS = [
     accent: "#ff8c3c",
     desc: "The face of power creep itself — every arc resets the ceiling with a new transformation, from Super Saiyan to Ultra Instinct.",
     traits: ["Transformation Chain", "Ki Mastery", "Franchise Icon"],
-    sketchfab: "a2d7a695a97a4cde9c28a77a3733eace"
+    sketchfab: "6a79ab6b70b747b68e787da1458ab582"
   },
   {
     name: "Vegeta", series: "Dragon Ball Super", tier: "ESCALATING",
     accent: "#5c8bff",
     desc: "Perpetually one step behind Goku by design, which still places him among the strongest beings ever to appear in fiction.",
     traits: ["Saiyan Pride", "Ultra Ego", "Rival Arc"],
-    sketchfab: "336e51bf9b0c4c218218da2d8ce7eb79"
+    sketchfab: "a5f2fafc906145fba71e81a77f870db9"
   },
   {
     name: "Zeno", series: "Dragon Ball Super", tier: "REALITY ENDER",
     accent: "#e6e6e6",
     desc: "Can erase entire universes without a second thought. Every other character in the franchise is functionally powerless in comparison.",
     traits: ["Universe Erasure", "Absolute Authority", "Childlike"],
-    sketchfab: "60ff10e7c90e4b30aa6fa23c1f8327ce"
+    sketchfab: "b8de8b51e36c449ab2e474b449d381b9"
   },
   {
     name: "Anos Voldigoad", series: "Misfit of Demon King Academy", tier: "NO-SELL",
@@ -483,14 +483,14 @@ const CHARACTERS = [
     accent: "#e23b3b",
     desc: "A centuries-old vampire who regenerates from near-total destruction and commands an army summoned from his own past victims.",
     traits: ["True Immortality", "Familiar Army", "Restraint Seals"],
-    sketchfab: "c31ee7084a054ceba5db9c9e181182ec"
+    sketchfab: "14f551fd0fb4495fa90f0924da613448"
   },
   {
     name: "Rimuru Tempest", series: "That Time I Got Reincarnated as a Slime", tier: "ABSORPTION LOOP",
     accent: "#3ad1c4",
     desc: "Copies and refines the abilities of anything it defeats, turning every dangerous enemy encountered into a permanent upgrade.",
     traits: ["Predator Skill", "Isekai Growth", "Nation Builder"],
-    sketchfab: "8e8c729085d74a068054ba499fc0925d"
+    sketchfab: "612ff2c805114744b66d3c29c7942371"
   },
   {
     name: "Yhwach", series: "Bleach: TYBW", tier: "FUTURE-PROOF",
@@ -529,7 +529,7 @@ CHARACTERS.forEach((c, i) => {
 
   const embedHTML = c.sketchfab
     ? `<div class="loader" id="loader-${i}"><div class="loader-ring"></div><div class="loader-label">LOADING</div></div>
-       <iframe data-src="https://sketchfab.com/models/${c.sketchfab}/embed?autostart=1&internal=1&tracking=0&ui_ar=0&ui_infos=0&ui_snapshots=1&ui_stop=0&ui_theatre=1&ui_watermark=0" style="width:100%;height:100%;position:absolute;top:0;left:0;border:none;opacity:0;transition:opacity .4s ease;" allow="autoplay; fullscreen; xr-spatial-tracking" title="${c.name} 3D Model" id="iframe-${i}"></iframe>`
+       <iframe data-src="https://sketchfab.com/models/${c.sketchfab}/embed?autostart=1&internal=1&tracking=0&ui_ar=0&ui_infos=0&ui_stop=0&ui_watermark=0" style="width:100%;height:100%;position:absolute;top:0;left:0;border:none;opacity:0;transition:opacity .4s ease;" allow="autoplay; fullscreen; xr-spatial-tracking" title="${c.name} 3D Model" id="iframe-${i}"></iframe>`
     : `<div class="loader" id="loader-${i}"><div class="loader-ring"></div><div class="loader-label">LOADING</div></div>
        <img data-src="${c.gif}" class="gif-embed" alt="${c.name}" id="iframe-${i}">`;
 
